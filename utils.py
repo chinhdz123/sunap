@@ -5,7 +5,6 @@ from detectron2.config import get_cfg
 from loguru import logger
 import cv2
 import warnings
-from control_robot.control_rb import control
 warnings.filterwarnings("ignore")
 cfg = get_cfg()
 cfg.merge_from_file("output\config.yaml")
@@ -52,12 +51,12 @@ def find_circles(img):
     for group_line in group_lines:
         group_line = sorted(group_line, key=lambda b: b[0])
         for circle in group_line:
-            if count>41 and count != 46 and count != 51 and count != 56 and count != 61:
-                cv2.circle(img, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
-                cv2.circle(img, (circle[0], circle[1]), 2, (0, 0, 255), 1)
-                cv2.putText(img, str(count), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
-                x.append(circle[0])
-                y.append(circle[1])
+            # if count>41 and count != 46 and count != 51 and count != 56 and count != 61:
+            cv2.circle(img, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
+            cv2.circle(img, (circle[0], circle[1]), 2, (0, 0, 255), 1)
+            cv2.putText(img, str(count), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
+            x.append(circle[0])
+            y.append(circle[1])
             count +=1
     return x, y
 def convert_to_x_y_robot(x,y):

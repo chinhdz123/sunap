@@ -77,5 +77,5 @@ torch.save(model, r"D:\20223\datn\AI\sunap\model\model_y.pth")
 
 predicteds = model(Y_test).detach().numpy()
 print([predicted*100 for predicted in predicteds])
-print([label_x*100 for label_x in label_y_test])
+print([label_y*100 for label_y in label_y_test])
 

@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import json
+import matplotlib.pyplot as plt
 with open('data_json\data.json', 'r') as openfile:
  
     # Reading from json file
@@ -11,7 +12,8 @@ x_train = json_object["x_train"]
 x_test = json_object["x_test"]
 label_x_train = json_object["label_x_train"]
 label_x_test = json_object["label_x_test"]
-
+plt.scatter(x_train,label_x_train)
+plt.show()
 X_train = []
 for item in x_train:
     X_train.append([item**2,item])
@@ -40,8 +42,8 @@ model = nn.Linear(input_size, output_size)
 learning_rate = 0.01
 
 criterion = nn.MSELoss()
-# optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate,momentum=0.9)
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,betas=[0.9,0.99])
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate,momentum=0.9)
+# optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,betas=[0.9,0.99])
 
 
 # 3) Training loop
@@ -70,12 +72,12 @@ for epoch in range(num_epochs):
             count = 0
         else:
             count+=1
-    if count > 10:
+    if count > 100:
         break
 
 torch.save(model, r"D:\20223\datn\AI\sunap\model\model_x.pth")
 
 predicteds = model(X_test).detach().numpy()
-print([predicted*300 for predicted in predicteds])
-print([label_x*300 for label_x in label_x_test])
+print([predicted*298.3 for predicted in predicteds])
+print([label_x*298.3 for label_x in label_x_test])
 
