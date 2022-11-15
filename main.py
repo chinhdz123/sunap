@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore")
 from utils import *
 
 
-img = cv2.imread(r"tmp\sunap1.jpg")
+img = cv2.imread(r"data\sunap2.jpg")
 # bước 1: tìm vị trí sunap trên ảnh
 x,y = find_circles(img)
 

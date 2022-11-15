@@ -31,6 +31,8 @@ def find_line_circles(circles):
     return group_lines
 
 def find_circles(img):
+
+    logger.info("start predict")
     output = predictor_circles(img)
     boxes = output["instances"].to("cpu").pred_boxes if output["instances"].to("cpu").has("pred_boxes") else None
     if boxes is not None:
@@ -51,33 +53,35 @@ def find_circles(img):
     for group_line in group_lines:
         group_line = sorted(group_line, key=lambda b: b[0])
         for circle in group_line:
-            # if count>41 and count != 46 and count != 51 and count != 56 and count != 61:
             cv2.circle(img, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
             cv2.circle(img, (circle[0], circle[1]), 2, (0, 0, 255), 1)
             cv2.putText(img, str(count), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
             x.append(circle[0])
             y.append(circle[1])
             count +=1
+    cv2.imwrite("tmp/sunap2.jpg",img)
+    logger.info("end predict")
     return x, y
 def convert_to_x_y_robot(x,y):
     model_x = torch.load(r"model\model_x.pth")
     model_y = torch.load(r"model\model_y.pth")
     X = []
-    x = [i/1000 for i in x]
+    xmax = max(x)
+    x = [i/xmax for i in x]
     for item in x:
-        X.append([item**2,item])
+        X.append([item**3,item**2,item])
     X = torch.tensor(X,dtype=torch.float32)
     
     predicteds_X = model_x(X).detach().numpy()
-    predicteds_X = [math.floor(predicted_X.item()*300) for predicted_X in predicteds_X]
-
-    y = [i/1700 for i in y]
+    predicteds_X = [math.floor(predicted_X.item()*310) for predicted_X in predicteds_X]
+    ymax = max(y)
+    y = [i/ymax for i in y]
     Y = []
     for item in y:
-        Y.append([item**2,item])
+        Y.append([item**3,item**2,item])
     Y = torch.tensor(Y,dtype=torch.float32)
 
     predicteds_Y = model_y(Y).detach().numpy()
-    predicteds_Y = [math.floor(predicted_Y.item()*100) for predicted_Y in predicteds_Y]
+    predicteds_Y = [math.floor(predicted_Y.item()*81) for predicted_Y in predicteds_Y]
 
     return predicteds_X,predicteds_Y

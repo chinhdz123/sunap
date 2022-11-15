@@ -12,16 +12,16 @@ x_train = json_object["x_train"]
 x_test = json_object["x_test"]
 label_x_train = json_object["label_x_train"]
 label_x_test = json_object["label_x_test"]
-plt.scatter(x_train,label_x_train)
-plt.show()
+# plt.scatter(x_train,label_x_train)
+# plt.show()
 X_train = []
 for item in x_train:
-    X_train.append([item**2,item])
+    X_train.append([item**4,item**3,item**2,item])
 X_train = torch.tensor(X_train,dtype=torch.float32)
 
 X_test = []
 for item in x_test:
-    X_test.append([item**2,item])
+    X_test.append([item**4,item**3,item**2,item])
 X_test = torch.tensor(X_test,dtype=torch.float32)
 
 label_x_train = torch.tensor(label_x_train,dtype=torch.float32)
@@ -39,15 +39,15 @@ output_size = 1
 model = nn.Linear(input_size, output_size)
 
 # 2) Loss and optimizer
-learning_rate = 0.01
+learning_rate = 0.001
 
 criterion = nn.MSELoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate,momentum=0.9)
-# optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,betas=[0.9,0.99])
+# optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate,momentum=0.9)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate,betas=[0.9,0.99])
 
 
 # 3) Training loop
-num_epochs = 30000
+num_epochs = 5000
 best_loss = 100
 count = 0
 for epoch in range(num_epochs):
@@ -72,12 +72,12 @@ for epoch in range(num_epochs):
             count = 0
         else:
             count+=1
-    if count > 100:
+    if count > 1000:
         break
 
-torch.save(model, r"D:\20223\datn\AI\sunap\model\model_x.pth")
+torch.save(model, r"model\model_x.pth")
 
-predicteds = model(X_test).detach().numpy()
-print([predicted*298.3 for predicted in predicteds])
-print([label_x*298.3 for label_x in label_x_test])
+predicteds = model(X_train).detach().numpy()
+print([predicted*310 for predicted in predicteds])
+print([label_x*310 for label_x in label_x_train])
 
