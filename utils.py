@@ -31,7 +31,6 @@ def find_line_circles(circles):
     return group_lines
 
 def find_circles(img):
-
     logger.info("start predict")
     output = predictor_circles(img)
     boxes = output["instances"].to("cpu").pred_boxes if output["instances"].to("cpu").has("pred_boxes") else None
@@ -45,7 +44,7 @@ def find_circles(img):
         r = int((x1-x0)/2)
         circles.append([center_X,center_Y,r])
         circles = sorted(circles, key=lambda b: b[1])
-
+    print(len(circles))
     group_lines = find_line_circles(circles)
     count = 0
     x = []
@@ -59,7 +58,7 @@ def find_circles(img):
             x.append(circle[0])
             y.append(circle[1])
             count +=1
-    cv2.imwrite("tmp/sunap2.jpg",img)
+    # cv2.imwrite("tmp/sunap2.jpg",img)
     logger.info("end predict")
     return x, y
 def convert_to_x_y_robot(x,y):
@@ -69,7 +68,7 @@ def convert_to_x_y_robot(x,y):
     xmax = max(x)
     x = [i/xmax for i in x]
     for item in x:
-        X.append([item**3,item**2,item])
+        X.append([item**4,item**3,item**2,item])
     X = torch.tensor(X,dtype=torch.float32)
     
     predicteds_X = model_x(X).detach().numpy()
@@ -78,7 +77,7 @@ def convert_to_x_y_robot(x,y):
     y = [i/ymax for i in y]
     Y = []
     for item in y:
-        Y.append([item**3,item**2,item])
+        Y.append([item**4,item**3,item**2,item])
     Y = torch.tensor(Y,dtype=torch.float32)
 
     predicteds_Y = model_y(Y).detach().numpy()

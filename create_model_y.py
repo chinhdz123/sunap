@@ -14,12 +14,12 @@ label_y_test = json_object["label_y_test"]
 
 Y_train = []
 for item in y_train:
-    Y_train.append([item**3,item**2,item])
+    Y_train.append([item**4,item**3,item**2,item])
 Y_train = torch.tensor(Y_train,dtype=torch.float32)
 
 Y_test = []
 for item in y_test:
-    Y_test.append([item**3,item**2,item])
+    Y_test.append([item**4,item**3,item**2,item])
 Y_test = torch.tensor(Y_test,dtype=torch.float32)
 
 label_y_train = torch.tensor(label_y_train,dtype=torch.float32)

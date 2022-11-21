@@ -15,7 +15,7 @@ label_y= [i/label_y_max for i in label_y]
 
 
 
-img = cv2.imread(r"data\sunap2.jpg")
+img = cv2.imread(r"data\sunap3.bmp")
 x,y = find_circles(img)
 print(x, y)
 x_max = max(x)
