@@ -32,22 +32,20 @@ def find_line_circles(circles):
     group_lines.append(group_line)
     return group_lines
 
-def find_circles_in_small_img(img):
-    # w, h = img.shape[:2]
+def find_circles_in_small_img(img,w_s, w_en):
     logger.info("start predict")
     output = predictor_circles(img)
     boxes = output["instances"].to("cpu").pred_boxes if output["instances"].to("cpu").has("pred_boxes") else None
     if boxes is not None:
         boxes = convert_boxes(boxes)
     circles= []
-    r_s = []
     for box in boxes:
         x0, y0, x1, y1 = box
         center_X =  int((x1+x0)/2)
         center_Y = int((y1+y0)/2)
         r = int((x1-x0)/2)
-        r_s.append(r)
-        circles.append([center_X,center_Y,r])
+        if center_X-r > w_s and center_X+r < w_en: 
+            circles.append([center_X,center_Y,r])
     return circles
 
 def convert_to_x_y_robot(x,y):
@@ -81,24 +79,8 @@ def find_total_circles(img):
 
     img1[:,:int(5.2*w/10)] = img[:,:int(5.2*w/10)]
     img2[:,int(4.8*w/10):] = img[:,int(4.8*w/10):]
-    circles1 = find_circles_in_small_img(img1)
-    # print(len(circles1))
-    # count1 =0 
-    # for circle in circles1:
-    #     cv2.circle(img1, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
-    #     cv2.circle(img1, (circle[0], circle[1]), 2, (0, 0, 255), 1)
-    #     cv2.putText(img1, str(count1), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
-    #     count1+=1
-    # cv2.imwrite("tmp/rs1.jpg",img1)
-    circles2 = find_circles_in_small_img(img2)
-    # count2 =0 
-    # print(len(circles2))
-    # for circle in circles2:
-    #     cv2.circle(img2, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
-    #     cv2.circle(img2, (circle[0], circle[1]), 2, (0, 0, 255), 1)
-    #     cv2.putText(img2, str(count2), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
-    #     count2+=1
-    # cv2.imwrite("tmp/rs2.jpg",img2)
+    circles1 = find_circles_in_small_img(img1, 0, int(5.2*w/10))
+    circles2 = find_circles_in_small_img(img2,int(4.8*w/10),w )
     circles = circles1 + circles2
     new_circles = deepcopy(circles)
     for circle1 in  circles1:
@@ -116,12 +98,12 @@ def find_total_circles(img):
     for group_line in group_lines:
         group_line = sorted(group_line, key=lambda b: b[0])
         for circle in group_line:
-            if count == 39 or count == 40:
-                cv2.circle(img, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
-                cv2.circle(img, (circle[0], circle[1]), 2, (0, 0, 255), 1)
-                cv2.putText(img, str(count), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
+            # if count == 39 or count == 40:
+            cv2.circle(img, (circle[0], circle[1]), circle[2], (0, 255, 0), 1)
+            cv2.circle(img, (circle[0], circle[1]), 2, (0, 0, 255), 1)
+            cv2.putText(img, str(count), (circle[0], circle[1]), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
             count +=1
             new_circle.append(circle)
     cv2.imwrite("tmp/result1.jpg",img)
 
-    return circles
+    return new_circle

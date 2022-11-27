@@ -4,31 +4,50 @@ import warnings
 from control_rb import control
 warnings.filterwarnings("ignore")
 from utils import *
+from datetime import date, datetime
+import os
+from mypackage.speak_hear import *
+from mymodule.talk import *
 
 
-img = cv2.imread(r"data\s1.bmp")
-# img = cv2.rotate(img,90)
-# bước 1: tìm vị trí sunap trên ảnh
-# h,w = img.shape[:2]
-# h1,w1 = int(h/2), int(w/2)
-# print(img.shape[:2])
-# img1 = img[:h1,:]
-# img2 = img[h1:h,:]
+def gird():
+    cap = cv2.VideoCapture(0)
+    while True:
+        ss, img = cap.read()
+        if ss:
+            circles = find_total_circles(img)
+            print(len(circles))
+            x = [circle[0] for circle in circles]
+            y = [circle[1] for circle in circles]
+            # bước 2: convert vị trí bằng model
+            x_robot,y_robot = convert_to_x_y_robot(x,y)
+            # bước 3: điều khiển robot theo các vị trí
+            control(x_robot,y_robot)
+            speak("tôi đã làm xong")
+            cv2.imwrite("img.jpg",img)
+            cv2.waitKey(10)
+            cv2.destroyAllWindows()
+            break
 
-circles = find_total_circles(img)
-print(len(circles))
-# x2,y2 = find_circles(img2)
-# cv2.imwrite("tmp/img1.jpg",img1)
-# cv2.imwrite("tmp/img2.jpg",img2)
+
+while True:
+    you = hear()
+    if you is None:
+        speak("Tôi không nghe rõ, bạn có thể nói lại được không")
+    elif "tạm biệt" in you:
+        speak("tạm biệt")
+        exit()
+    elif "bắt đầu" in you:
+        speak("ô kê, rô bốt sẽ bắt đầu trong ít giây")
+        gird()
+    elif "dừng" in you:
+        speak("ô kê, rô bốt đã dừng lại")
+    elif "lên" in you:
+        speak("ô kê, rô bốt lên nào")
+    elif "xuống" in you:
+        speak("ô kê, rô bốt xuống nào")
 
 
-# bước 2: convert vị trí bằng model
-# x = [ 519, 644, 775, 908, 511, 644, 779, 922, 507, 644, 785, 932, 499, 643, 793, 947, 486, 639, 799, 964, 476, 635, 804, 980]
-# y = [ 993, 988, 980, 965, 1107, 1101, 1095, 1081, 1231, 1230, 1221, 1209, 1367, 1364, 1357, 1349, 1513, 1510, 1505, 1502, 1671, 1673, 1674, 1676]
-# x_robot,y_robot = convert_to_x_y_robot(x,y)
 
-# print("x_robot",x_robot)
-# print("y_robot",y_robot)
-# bước 3: điều khiển robot theo các vị trí
-# control(x_robot,y_robot)
+
 
