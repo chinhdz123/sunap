@@ -51,3 +51,4 @@ def control(key,x,y):
             dType.SetPTPCmd(api,dType.PTPMode.PTPMOVLXYZMode,x_pose,y_pose-10,z_pose,10,isQueued=1)
 
     dType.DisconnectDobot(api)
+#phong dz
