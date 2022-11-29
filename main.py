@@ -46,6 +46,8 @@ while True:
         speak("ô kê, rô bốt lên nào")
     elif "xuống" in you:
         speak("ô kê, rô bốt xuống nào")
+    elif "dừng lại" in you:
+        speak("ô kê, rô bốt dừng lại nào")
 
 
 
