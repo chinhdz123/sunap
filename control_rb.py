@@ -1,4 +1,4 @@
-def control(x,y):
+def control(key,x,y):
     import DobotDllType as dType
 
     CON_STR = {
@@ -23,17 +23,31 @@ def control(x,y):
         dType.SetHOMEParams(api, 250, 0, 50, 0, isQueued = 0)
         dType.SetPTPJointParams(api, 50, 50, 50, 50, 50, 50, 50, 50, isQueued = 0)
         dType.SetHOMECmd(api, temp = 0, isQueued = 0)
-        for x_item,y_item in zip(x,y):
-            if x_item<315:
-                print("x_item, y_item",x_item,y_item)
-                # for y_item in y:
-                dType.SetPTPCmd(api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,60,10, isQueued=1)
-                dType.SetWAITCmd(api, 200, isQueued=1)
-                dType.SetPTPCmd(api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,30,10, isQueued=1)
-                # dType.SetWAITCmd(api, 200, isQueued=1)
-                dType.SetEndEffectorSuctionCup(api, True,  True, isQueued=1)
-                dType.SetWAITCmd(api, 500, isQueued=1)
-                dType.SetPTPCmd(api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,60,10, isQueued=1)
-                dType.SetWAITCmd(api, 1000, isQueued=1)
-                dType.SetEndEffectorSuctionCup(api, True,  False, isQueued=1)
+        pose = dType.GetPose()
+        x_pose = pose[0]
+        y_pose = pose[1]
+        z_pose = pose[2]
+        if key =='main':
+            for x_item,y_item in zip(x,y):
+                if x_item<315:
+                    print("x_item, y_item",x_item,y_item)
+                    # for y_item in y:
+                    dType.SetPTPCmd(api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,60,10, isQueued=1)
+                    dType.SetWAITCmd(api, 200, isQueued=1)
+                    dType.SetPTPCmd(api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,30,10, isQueued=1)
+                    # dType.SetWAITCmd(api, 200, isQueued=1)
+                    dType.SetEndEffectorSuctionCup(api, True,  True, isQueued=1)
+                    dType.SetWAITCmd(api, 500, isQueued=1)
+                    dType.SetPTPCmd(api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,60,10, isQueued=1)
+                    dType.SetWAITCmd(api, 1000, isQueued=1)
+                    dType.SetEndEffectorSuctionCup(api, True,  False, isQueued=1)
+        if key == 'up':
+           dType.SetPTPCmd(api,dType.PTPMode.PTPMOVLXYZMode,x_pose,y_pose,z_pose+10,10,isQueued=1) 
+        if key == 'down':
+           dType.SetPTPCmd(api,dType.PTPMode.PTPMOVLXYZMode,x_pose,y_pose,z_pose-10,10,isQueued=1) 
+        if key == 'right':
+            dType.SetPTPCmd(api,dType.PTPMode.PTPMOVLXYZMode,x_pose,y_pose+10,z_pose,10,isQueued=1)
+        if key == 'left':
+            dType.SetPTPCmd(api,dType.PTPMode.PTPMOVLXYZMode,x_pose,y_pose-10,z_pose,10,isQueued=1)
+
     dType.DisconnectDobot(api)

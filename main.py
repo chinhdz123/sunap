@@ -44,11 +44,15 @@ while True:
         speak("ô kê, rô bốt đã dừng lại")
     elif "lên" in you:
         speak("ô kê, rô bốt lên nào")
+        control('up')    
     elif "xuống" in you:
-        speak("ô kê, rô bốt xuống nào")
-    elif "dừng lại" in you:
-        speak("ô kê, rô bốt dừng lại nào")
-
+        speak("ô kê, rô bốt xuống nào") 
+    elif "trái" in you:
+        speak("ô kê, rô bốt lên nào")
+        control('left')
+    elif "phải" in you:
+        speak("ô kê, rô bốt lên nào")
+        control('right')
 
 
 
