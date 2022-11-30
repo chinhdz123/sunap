@@ -9,7 +9,7 @@ import numpy as np
 from copy import deepcopy
 warnings.filterwarnings("ignore")
 cfg = get_cfg()
-cfg.merge_from_file(r"output\new_model\output.yaml")
+cfg.merge_from_file(r"output\output.yaml")
 logger.info("start_load_md")
 predictor_circles = DefaultPredictor(cfg)
 logger.info("end_load_md")
@@ -107,3 +107,4 @@ def find_total_circles(img):
     cv2.imwrite("tmp/result1.jpg",img)
 
     return new_circle
+

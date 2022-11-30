@@ -2,10 +2,10 @@ from mypackage.speak_hear import *
 import numpy as np
 from time import sleep
 
-q1 = open("D:\\2022_2\\AI_code\\database\\question_ques.txt", mode='r', encoding="utf8")
+""" q1 = open("D:\\2022_2\\AI_code\\database\\question_ques.txt", mode='r', encoding="utf8")
 ques1 = q1.read().split("\n")
 a1 = open("D:\\2022_2\\AI_code\\database\\answer_ques.txt", mode='r', encoding="utf8")
-answ1 = a1.read().split("\n")
+answ1 = a1.read().split("\n") """
 
 def talk():
     speak("yes, i would love to talk to you ")

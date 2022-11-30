@@ -21,15 +21,16 @@ def hear():
 
 
 def speak(text):
+    pass
     # print("Michael: " + text)
     # engine = pyttsx3.init()
     # voice = engine.getProperty("voices")
     # engine.setProperty("voice", voice[1].id)
     # engine.say(text)
     # engine.runAndWait()
-    date_string = datetime.now().strftime("%d%m%Y%H%M%S")
+    """ date_string = datetime.now().strftime("%d")
     tts = gTTS(text=text, lang = "vi")
     filename = "voice"+date_string +".mp3"
     tts.save(filename)
     playsound.playsound(filename)
-    os.remove(filename)
+    os.remove(filename) """
