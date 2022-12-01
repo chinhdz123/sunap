@@ -9,7 +9,7 @@ import os
 from mypackage.speak_hear import *
 from mymodule.talk import *
 
-from pypylon import pylon
+""" from pypylon import pylon
 import cv2
 
 # conecting to the first available camera
@@ -37,7 +37,7 @@ while camera.IsGrabbing():
             break
         grabResult.Release()
 camera.StopGrabbing()
-cv2.destroyAllWindows()
+cv2.destroyAllWindows() """
 
 def gird():
     img = cv2.imread('D:\Robot\Sunap\datn\sunap\img1.jpg')
@@ -51,14 +51,12 @@ def gird():
     control.main()
     speak("tôi đã làm xong")
     cv2.imwrite("img.jpg",img)
-gird()
+#gird()
+control = Control_robot()
 
-control =  Control_robot()
-
+control.print()
 while True:
-
     you = hear()
-    
     if you is None:
         speak("Tôi không nghe rõ, bạn có thể nói lại được không")
     elif "tạm biệt" in you:
@@ -67,20 +65,17 @@ while True:
     elif "bắt đầu" in you:
         speak("ô kê, rô bốt sẽ bắt đầu trong ít giây")
         gird()
-    elif "dừng" in you:
-        speak("ô kê, rô bốt đã dừng lại")
+  
+    elif "xuống" in you:
+        speak("ô kê, rô bốt đi xuống")
+        control.down()
     elif "lên" in you:
         control.up()
         speak("ô kê, rô bốt lên nào")
+    elif "dừng" in you:
+        speak("ô kê, rô bốt đã dừng lại")
         
-    # elif "xuống" in you:
-    #     speak("ô kê, rô bốt xuống nào") 
-    # elif "trái" in you:
-    #     speak("ô kê, rô bốt lên nào")
-    #     control.
-    # elif "phải" in you:
-    #     speak("ô kê, rô bốt lên nào")
-    #     control('right')
+
 
 
 

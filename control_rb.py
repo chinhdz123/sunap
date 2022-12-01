@@ -35,8 +35,16 @@ class Control_robot():
                 dType.SetPTPCmd(self.api,  dType.PTPMode.PTPMOVLXYZMode, x_item,y_item,60,10, isQueued=1)
                 dType.SetWAITCmd(self.api, 1000, isQueued=1)
                 dType.SetEndEffectorSuctionCup(self.api, True,  False, isQueued=1)
+    def print(self):
+        print(self.x_pose)
+        print(self.z_pose)
     def up(self):
-        dType.SetPTPCmd(self.api,dType.PTPMode.PTPMOVLXYZMode,self.x_pose,self.y_pose,self.z_pose+10,10,isQueued=1) 
+        dType.SetPTPCmd(self.api,dType.PTPMode.PTPMOVLXYZMode,self.x_pose,self.y_pose,self.z_pose+50,10,isQueued=1) 
+        #print("up")
+    def down(self):
+        dType.SetPTPCmd(self.api,dType.PTPMode.PTPMOVLXYZMode,self.x_pose,self.y_pose,self.z_pose-10,10,isQueued=1) 
+        #print("down")
+
 
 
 

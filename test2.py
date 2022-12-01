@@ -39,7 +39,7 @@ for epoch in range(iters):
 X_test = torch.tensor([980],dtype=torch.float32)
 print(model(X_test).item())
  """
-from pypylon import pylon
+""" from pypylon import pylon
 import cv2
 
 # conecting to the first available camera
@@ -70,4 +70,8 @@ while camera.IsGrabbing():
 # Releasing the resource    
 camera.StopGrabbing()
 
-cv2.destroyAllWindows()
+cv2.destroyAllWindows() """
+while True:
+    input = str(input())
+
+print(input)
