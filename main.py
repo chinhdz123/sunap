@@ -32,14 +32,15 @@ while camera.IsGrabbing():
             img_cam = image.GetArray()
             cv2.namedWindow('title', cv2.WINDOW_NORMAL)
             cv2.imshow('title', img_cam)
-            img_cam = cv2.imwrite("img1.jpg",img_cam)
+            cv2.imwrite("img1.jpg",img_cam)
             cv2.waitKey(10)
-            cv2.destroyAllWindows()
             break
         grabResult.Release()
+camera.StopGrabbing()
+cv2.destroyAllWindows()
 
-def gird(img_cam):
-    img = cv2.imread(os.path.join(img_cam))
+def gird():
+    img = cv2.imread('D:\Robot\Sunap\datn\sunap\img1.jpg')
     circles = find_total_circles(img)
     print(len(circles))
     x = [circle[0] for circle in circles]
@@ -50,10 +51,7 @@ def gird(img_cam):
     control.main()
     speak("tôi đã làm xong")
     cv2.imwrite("img.jpg",img)
-gird(img_cam)
-
-    
-
+gird()
 
 control =  Control_robot()
 
